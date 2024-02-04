@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Small module that converts from URLs to filenames to URLs",
   "main": "index.js",
+  "files": [
+    "index.js"
+  ],
   "dependencies": {},
   "devDependencies": {
     "standard": "^17.1.0"
