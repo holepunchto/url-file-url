@@ -6,7 +6,9 @@
   "files": [
     "index.js"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "which-runtime": "^1.2.0"
+  },
   "devDependencies": {
     "standard": "^17.1.0"
   },

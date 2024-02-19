@@ -1,5 +1,5 @@
-const platform = global.Bare?.platform || global.process?.platform || 'browser'
 const path = require('path')
+const { isWindows } = require('which-runtime')
 
 exports.fileURLToPath = function fileURLToPath (url) {
   if (typeof url === 'string') {
@@ -10,10 +10,30 @@ exports.fileURLToPath = function fileURLToPath (url) {
     throw new Error('The URL must use the file: protocol')
   }
 
-  const pathname = decodeURIComponent(path.normalize(url.pathname))
+  if (isWindows) {
+    if (/%2f|%5c/i.test(url.pathname)) {
+      throw new Error('The file: URL path must not include encoded \\ or / characters')
+    }
+  } else {
+    if (url.hostname) {
+      throw new Error('The file: URL host must be \'localhost\' or empty')
+    }
 
-  if (platform === 'win32') {
+    if (/%2f/i.test(url.pathname)) {
+      throw new Error('The file: URL path must not include encoded / characters')
+    }
+  }
+
+  const pathname = path.normalize(decodeURIComponent(url.pathname))
+
+  if (isWindows) {
     if (url.hostname) return '\\\\' + url.hostname + pathname
+
+    const letter = pathname.charCodeAt(1) | 0x20
+
+    if (letter < 0x61 /* a */ || letter > 0x7a /* z */ || pathname.charCodeAt(2) !== 0x3a /* : */) {
+      throw new Error('The file: URL path must be absolute')
+    }
 
     return pathname.slice(1)
   }
@@ -26,7 +46,7 @@ exports.pathToFileURL = function pathToFileURL (pathname) {
 
   if (pathname[pathname.length - 1] === '/') {
     resolved += '/'
-  } else if (platform === 'win32' && pathname[pathname.length - 1 === '\\']) {
+  } else if (isWindows && pathname[pathname.length - 1 === '\\']) {
     resolved += '\\'
   }
 
@@ -38,7 +58,7 @@ exports.pathToFileURL = function pathToFileURL (pathname) {
     .replaceAll('\r', '%0d')
     .replaceAll('\t', '%09')
 
-  if (platform !== 'win32') {
+  if (!isWindows) {
     resolved = resolved.replaceAll('\\', '%5c')
   }
 
