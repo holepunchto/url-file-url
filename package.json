@@ -1,6 +1,6 @@
 {
   "name": "url-file-url",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Small module that converts from URLs to filenames to URLs",
   "main": "index.js",
   "files": [
