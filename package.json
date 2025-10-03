@@ -10,11 +10,10 @@
     "bare-path": "^3.0.0",
     "which-runtime": "^1.2.0"
   },
-  "devDependencies": {
-    "standard": "^17.1.0"
-  },
   "scripts": {
-    "test": "standard"
+    "format": "prettier --write .",
+    "lint": "prettier --check .",
+    "test": "npm run lint"
   },
   "imports": {
     "path": {
@@ -31,5 +30,9 @@
   "bugs": {
     "url": "https://github.com/holepunchto/url-file-url/issues"
   },
-  "homepage": "https://github.com/holepunchto/url-file-url"
+  "homepage": "https://github.com/holepunchto/url-file-url",
+  "devDependencies": {
+    "prettier": "^3.6.2",
+    "prettier-config-holepunch": "^1.0.0"
+  }
 }
