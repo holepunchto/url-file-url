@@ -10,7 +10,7 @@ Useful for embedded runtimes with no `url` module.
 
 ## Usage
 
-``` js
+```js
 const { fileURLToPath, pathToFileURL } = require('url-file-url')
 
 pathToFileURL('/foo/bar') // file:///foo/bar

@@ -1,7 +1,7 @@
 const path = require('path')
 const { isWindows } = require('which-runtime')
 
-exports.fileURLToPath = function fileURLToPath (url) {
+exports.fileURLToPath = function fileURLToPath(url) {
   if (typeof url === 'string') {
     url = new URL(url)
   }
@@ -12,15 +12,19 @@ exports.fileURLToPath = function fileURLToPath (url) {
 
   if (isWindows) {
     if (/%2f|%5c/i.test(url.pathname)) {
-      throw new Error('The file: URL path must not include encoded \\ or / characters')
+      throw new Error(
+        'The file: URL path must not include encoded \\ or / characters'
+      )
     }
   } else {
     if (url.hostname) {
-      throw new Error('The file: URL host must be \'localhost\' or empty')
+      throw new Error("The file: URL host must be 'localhost' or empty")
     }
 
     if (/%2f/i.test(url.pathname)) {
-      throw new Error('The file: URL path must not include encoded / characters')
+      throw new Error(
+        'The file: URL path must not include encoded / characters'
+      )
     }
   }
 
@@ -31,7 +35,11 @@ exports.fileURLToPath = function fileURLToPath (url) {
 
     const letter = pathname.charCodeAt(1) | 0x20
 
-    if (letter < 0x61 /* a */ || letter > 0x7a /* z */ || pathname.charCodeAt(2) !== 0x3a /* : */) {
+    if (
+      letter < 0x61 /* a */ ||
+      letter > 0x7a /* z */ ||
+      pathname.charCodeAt(2) !== 0x3a /* : */
+    ) {
       throw new Error('The file: URL path must be absolute')
     }
 
@@ -41,7 +49,7 @@ exports.fileURLToPath = function fileURLToPath (url) {
   return pathname
 }
 
-exports.pathToFileURL = function pathToFileURL (pathname) {
+exports.pathToFileURL = function pathToFileURL(pathname) {
   let resolved = path.resolve(pathname)
 
   if (pathname[pathname.length - 1] === '/') {
