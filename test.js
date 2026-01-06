@@ -9,13 +9,14 @@ test('pathToFileURL - basic', (t) => {
 })
 
 test('fileURLToPath - basic', function (t) {
-  const path = fileURLToPath('file:///foo/bar')
+  const url = isWindows ? 'file:///C:/foo/bar' : 'file:///foo/bar'
+  const path = fileURLToPath(url)
   t.ok(path.includes('foo'))
   t.ok(path.includes('bar'))
 })
 
 test('fileURLToPath - URL object', function (t) {
-  const url = new URL('file:///foo/bar')
+  const url = new URL(isWindows ? 'file:///C:/foo/bar' : 'file:///foo/bar')
   const path = fileURLToPath(url)
   t.ok(path.includes('foo'))
   t.ok(path.includes('bar'))
